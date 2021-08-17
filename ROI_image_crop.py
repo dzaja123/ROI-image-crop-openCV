@@ -12,13 +12,12 @@ class staticROI(object):
             self.image_coordinates = []
             self.extract = False
             self.selected_ROI = False
-
             self.update()
 
     def update(self):
 
         while True:
-
+            
             if self.capture.isOpened():
                 # Citanje frejma
                 (self.status, self.frame) = self.capture.read()
@@ -30,7 +29,6 @@ class staticROI(object):
                 if key == ord('c'):
 
                     self.clone = self.frame.copy()
-                    
                     cv2.namedWindow('image')
                     cv2.setMouseCallback('image', self.extract_coordinates)
 
@@ -47,7 +45,6 @@ class staticROI(object):
 
                         # Nastavak stream-a
                         if key == ord('r'):
-
                             break
                 # Gasenje programa tasterom 'q'
                 if key == ord('q'):
@@ -69,7 +66,6 @@ class staticROI(object):
 
             self.image_coordinates.append((x,y))
             self.extract = False
-
             self.selected_ROI = True
 
             # Crtanje ROI-a
@@ -84,7 +80,7 @@ class staticROI(object):
     def crop_ROI(self):
 
         if self.selected_ROI:
-
+            
             self.cropped_image = self.frame.copy()
 
             x1 = self.image_coordinates[0][0]
@@ -93,7 +89,6 @@ class staticROI(object):
             y2 = self.image_coordinates[1][1]
 
             self.cropped_image = self.cropped_image[y1:y2, x1:x2]
-
             print('Cropped image: {} {}'.format(self.image_coordinates[0], self.image_coordinates[1]))
         
         else:
@@ -105,5 +100,4 @@ class staticROI(object):
         cv2.imshow('Cropped image', self.cropped_image)
 
 if __name__ == '__main__':
-
     static_ROI = staticROI()
